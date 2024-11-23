@@ -1,0 +1,80 @@
+﻿<Window x:Class="WPFApplication.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFApplication"
+        xmlns:vm="clr-namespace:WPFApplication.ViewModels"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="310" Width="295" MinHeight="310" MinWidth="295">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="textBoxData" TargetType="TextBox">
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Margin" Value="10,0,10,0"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="Transparent" x:Name="Bd" 
+        BorderThickness="2" CornerRadius="10" BorderBrush="LightGray">
+                            <ScrollViewer x:Name="PART_ContentHost" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Text" Value="Логин">
+                    <Setter Property="Foreground" Value="Gray"/>
+                </Trigger>
+                <Trigger Property="Text" Value="Пароль">
+                    <Setter Property="Foreground" Value="Gray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ErrorData" TargetType="TextBlock">
+            <Setter Property="Margin" Value="10,3,0,10"/>
+            <Setter Property="Foreground" Value="LightCoral"/>
+        </Style>
+        <Style x:Key="But" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="SteelBlue" x:Name="Bd" 
+                        BorderThickness="2" CornerRadius="15" BorderBrush="Beige">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Content="{TemplateBinding Content}" Margin="10,5,10,5"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" MinHeight="40"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Title}" FontSize="28" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+        <StackPanel Margin="0,42,0,0" Grid.RowSpan="2">
+            <TextBox Style="{StaticResource textBoxData}" Text="{Binding Login}" GotFocus="TextBox_GotFocus" LostFocus="loginBox_LostFocus" x:Name="LoginBox"/>
+            <TextBlock Style="{StaticResource ErrorData}" Text="Некорректный ввод" Visibility="{Binding CorrectLogin}"/>
+            <TextBox Style="{StaticResource textBoxData}" Text="{Binding Password}" GotFocus="TextBox_GotFocus" LostFocus="PasswordBox_LostFocus" x:Name="PasswordBox"/>
+            <TextBlock Style="{StaticResource ErrorData}" Text="Некорректный ввод" Visibility="{Binding CorrectPassword}"/>
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource But}" Content="{Binding TextInButton}" Command="{Binding CliclMode}" Grid.Column="0" />
+            <Button Style="{StaticResource But}" Content="Войти" Grid.Column="1" Command="{Binding ClickIn}"/>
+        </Grid>
+        <TextBlock Style="{StaticResource ErrorData}" Text="{Binding ErrorText}" Grid.Row="3" TextWrapping="Wrap"/>
+    </Grid>
+</Window>
